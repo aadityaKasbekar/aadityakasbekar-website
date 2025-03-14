@@ -1,0 +1,65 @@
+
+import { Download } from "lucide-react";
+
+const AboutSection = () => {
+  return (
+    <div className="container mx-auto">
+      <h2 className="section-title">About Me</h2>
+      <div className="grid md:grid-cols-2 gap-12 items-center">
+        <div className="relative">
+          <div className="aspect-video rounded-2xl overflow-hidden border border-border">
+            <img 
+              src="/lovable-uploads/cfccbb81-ce1e-4b2b-96d6-8e310cdb471a.png" 
+              alt="About Me" 
+              className="w-full h-full object-cover object-center"
+            />
+          </div>
+          <div className="glass-card p-4 absolute -bottom-6 right-8 max-w-xs">
+            <blockquote className="text-foreground/80 italic">
+              "Many ideas grow better when transplanted into another mind than the one where they sprang up."
+            </blockquote>
+            <p className="text-right mt-2 text-sm">— Oliver Wendell Holmes</p>
+          </div>
+        </div>
+        <div>
+          <h3 className="text-2xl font-semibold mb-4">
+            I'm a Software Engineer passionate about creating intuitive and beautiful web experiences
+          </h3>
+          <p className="mb-4 text-foreground/80">
+            With 5+ years of experience in web development, I've worked on a variety of projects
+            ranging from small business websites to complex enterprise applications. My approach
+            combines technical expertise with a keen eye for design and user experience.
+          </p>
+          <p className="mb-6 text-foreground/80">
+            I believe that great software is not just about writing code, but about solving real
+            problems for real people. That's why I focus on creating intuitive interfaces that
+            make complex tasks feel simple.
+          </p>
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div>
+              <h4 className="font-semibold mb-2">Name</h4>
+              <p className="text-foreground/80">John Developer</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Email</h4>
+              <p className="text-foreground/80">hello@johndev.com</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Location</h4>
+              <p className="text-foreground/80">San Francisco, CA</p>
+            </div>
+            <div>
+              <h4 className="font-semibold mb-2">Availability</h4>
+              <p className="text-foreground/80">Open to opportunities</p>
+            </div>
+          </div>
+          <a href="#" className="btn btn-outline">
+            Download CV <Download className="ml-2 h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AboutSection;
