@@ -1,5 +1,5 @@
-
 import { CalendarDays, MapPin } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface TimelineItemProps {
   title: string;
@@ -7,6 +7,8 @@ interface TimelineItemProps {
   location: string;
   period: string;
   description: string[];
+  image: string;
+  skills: string[];
   isLast?: boolean;
 }
 
@@ -16,6 +18,8 @@ const TimelineItem = ({
   location,
   period,
   description,
+  image,
+  skills,
   isLast = false,
 }: TimelineItemProps) => {
   return (
@@ -27,25 +31,51 @@ const TimelineItem = ({
         <div className="h-2 w-2 rounded-full bg-primary"></div>
       </div>
       <div className="glass-card p-6">
-        <h3 className="text-xl font-semibold">{title}</h3>
-        <div className="font-medium text-lg text-foreground/90 mb-2">{company}</div>
-        <div className="flex flex-col sm:flex-row sm:items-center text-sm text-foreground/70 mb-4 gap-2 sm:gap-4">
-          <div className="flex items-center">
-            <MapPin className="h-4 w-4 mr-1" />
-            {location}
+        <div className="flex flex-col md:flex-row gap-6 mb-4">
+          <div className="md:w-1/4 flex-shrink-0">
+            <div className="aspect-square rounded-lg overflow-hidden border border-border">
+              <img
+                src={image}
+                alt={company}
+                className="w-full h-full object-cover object-center"
+              />
+            </div>
           </div>
-          <div className="flex items-center">
-            <CalendarDays className="h-4 w-4 mr-1" />
-            {period}
+          <div className="flex-1">
+            <h3 className="text-xl font-semibold">{title}</h3>
+            <div className="font-medium text-lg text-foreground/90 mb-2">
+              {company}
+            </div>
+            <div className="flex flex-col sm:flex-row sm:items-center text-sm text-foreground/70 mb-4 gap-2 sm:gap-4">
+              <div className="flex items-center">
+                <MapPin className="h-4 w-4 mr-1" />
+                {location}
+              </div>
+              <div className="flex items-center">
+                <CalendarDays className="h-4 w-4 mr-1" />
+                {period}
+              </div>
+            </div>
+            <ul className="list-disc pl-5 space-y-2 mb-4">
+              {description.map((item, index) => (
+                <li key={index} className="text-foreground/80">
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-2 mt-3">
+              {skills.map((skill, index) => (
+                <Badge
+                  key={index}
+                  variant="secondary"
+                  className="bg-primary/10 text-primary hover:bg-primary/20"
+                >
+                  {skill}
+                </Badge>
+              ))}
+            </div>
           </div>
         </div>
-        <ul className="list-disc pl-5 space-y-2">
-          {description.map((item, index) => (
-            <li key={index} className="text-foreground/80">
-              {item}
-            </li>
-          ))}
-        </ul>
       </div>
     </div>
   );

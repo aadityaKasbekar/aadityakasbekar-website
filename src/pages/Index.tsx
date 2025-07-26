@@ -27,7 +27,7 @@ const Index = () => {
       {/* Hero Section */}
       <Section
         id="home"
-        className="min-h-screen flex items-center"
+        className="min-h-screen flex items-center justify-center"
         direction="none"
       >
         <HeroSection />
