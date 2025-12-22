@@ -63,7 +63,7 @@ const Navigation = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center h-16">
         <a href="#home" className="text-2xl font-display font-bold">
-          {"{"} Aaditya<span className="text-primary">_Kasbekar {"}"}</span>
+          {"{"} Aadi<span className="text-primary">_Kasbekar {"}"}</span>
         </a>
 
         {/* Desktop Navigation */}
