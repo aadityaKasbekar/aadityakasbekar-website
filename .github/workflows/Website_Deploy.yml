@@ -114,9 +114,17 @@ jobs:
 
           echo "Deploying to release directory:"
           echo "  ${RELEASE_DIR}"
+          echo "Using build output dir: ${{ steps.builddir.outputs.dir }}"
 
+          # Create release directory on server
           ssh home-server "mkdir -p '${RELEASE_DIR}'"
-          rsync -az --delete "${{ steps.builddir.outputs.dir }}/" "home-server:${RELEASE_DIR}/"
+
+          # Upload build output
+          rsync -az --delete \
+            "${{ steps.builddir.outputs.dir }}/" \
+            "home-server:${RELEASE_DIR}/"
+
+          # Switch symlink atomically
           ssh home-server "ln -sfn '${RELEASE_DIR}' '${BIN_DEPLOY_DIR}/current'"
 
       # ------------------------------------------------------------
