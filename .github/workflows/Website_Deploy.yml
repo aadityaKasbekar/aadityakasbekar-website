@@ -1,0 +1,134 @@
+name: Deploy Portfolio to Home Server (Cloudflare SSH)
+
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+
+jobs:
+  deploy:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    env:
+      BIN_DEPLOY_DIR: ${{ secrets.BIN_DEPLOY_DIR }}
+      CF_SERVICE_TOKEN_CLIENT_ID: ${{ secrets.CF_SERVICE_TOKEN_CLIENT_ID }}
+      CF_SERVICE_TOKEN_CLIENT_SECRET: ${{ secrets.CF_SERVICE_TOKEN_CLIENT_SECRET }}
+      HOME_SERVER_DEST_IP_PORT: ${{ secrets.HOME_SERVER_DEST_IP_PORT }}
+      SERVER_USER_GITHUB: ${{ secrets.SERVER_USER_GITHUB }}
+
+    steps:
+      # ------------------------------------------------------------
+      # Phase1 — Checkout & build
+      # ------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Detect build output directory
+        id: builddir
+        shell: bash
+        run: |
+          set -e
+          if [ -d "build" ] && [ -f "build/index.html" ]; then
+            echo "dir=build" >> "$GITHUB_OUTPUT"
+          elif [ -d "dist" ] && [ -f "dist/index.html" ]; then
+            echo "dir=dist" >> "$GITHUB_OUTPUT"
+          else
+            echo "ERROR: Could not find React build output"
+            exit 1
+          fi
+
+      # ------------------------------------------------------------
+      # Phase2 — Install cloudflared & establish SSH tunnel
+      # ------------------------------------------------------------
+      - name: Install cloudflared
+        run: |
+          curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg \
+            | sudo gpg --dearmor -o /usr/share/keyrings/cloudflare-main.gpg
+          echo "deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared $(lsb_release -cs) main" \
+            | sudo tee /etc/apt/sources.list.d/cloudflared.list
+          sudo apt update
+          sudo apt install -y cloudflared
+          cloudflared --version
+
+      - name: Start Cloudflare SSH TCP tunnel
+        run: |
+          set -e
+          LOCAL_PORT=2222
+
+          nohup cloudflared access tcp \
+            --hostname "${HOME_SERVER_DEST_IP_PORT%%\\*}" \
+            --url "tcp://127.0.0.1:${LOCAL_PORT}" \
+            --destination "${HOME_SERVER_DEST_IP_PORT}" \
+            --service-token-id "${CF_SERVICE_TOKEN_CLIENT_ID}" \
+            --service-token-secret "${CF_SERVICE_TOKEN_CLIENT_SECRET}" \
+            --loglevel info \
+            > cloudflared.log 2>&1 &
+
+          for i in {1..30}; do
+            if nc -z 127.0.0.1 ${LOCAL_PORT}; then
+              echo "Cloudflare tunnel established"
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "Tunnel failed to start"
+          tail -n 200 cloudflared.log
+          exit 1
+
+      # ------------------------------------------------------------
+      # Phase3 — Upload build, switch symlink
+      # ------------------------------------------------------------
+      - name: Configure SSH client
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          cat > ~/.ssh/config <<EOF
+          Host home-server
+            HostName 127.0.0.1
+            Port 2222
+            User ${SERVER_USER_GITHUB}
+            StrictHostKeyChecking no
+            UserKnownHostsFile /dev/null
+          EOF
+          chmod 600 ~/.ssh/config
+
+      - name: Upload build and activate release
+        run: |
+          set -e
+          TIMESTAMP="$(TZ="America/Los_Angeles" date +"%Y-%m-%d_%H-%M-%S_PST")"
+          RELEASE_DIR="${BIN_DEPLOY_DIR}/releases/${TIMESTAMP}_${GITHUB_SHA}"
+
+          echo "Deploying to release directory:"
+          echo "  ${RELEASE_DIR}"
+
+          ssh home-server "mkdir -p '${RELEASE_DIR}'"
+          rsync -az --delete "${{ steps.builddir.outputs.dir }}/" "home-server:${RELEASE_DIR}/"
+          ssh home-server "ln -sfn '${RELEASE_DIR}' '${BIN_DEPLOY_DIR}/current'"
+
+      # ------------------------------------------------------------
+      # Phase4 — Reload nginx
+      # ------------------------------------------------------------
+      - name: Reload nginx
+        run: |
+          ssh home-server "sudo systemctl reload nginx"
+
+      # ------------------------------------------------------------
+      # Phase5 — Verify deployment
+      # ------------------------------------------------------------
+      - name: Verify site locally on server
+        run: |
+          ssh home-server "curl -I http://127.0.0.1:8080 | head -n 5"
