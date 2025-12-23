@@ -98,7 +98,7 @@ jobs:
           set -e
           TIMESTAMP="$(TZ="America/Los_Angeles" date +"%Y-%m-%d_%H-%M-%S_PST")"
           RELEASE_DIR="${BIN_DEPLOY_DIR}/releases/${TIMESTAMP}_${GITHUB_SHA}"
-          PROXY_CMD="cloudflared access ssh --hostname ssh.aadityakasbekar.com --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}"
+          PROXY_CMD="cloudflared access ssh --hostname Aaditya-Home-Server --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}"
 
           echo "Deploying to release directory:"
           echo "  ${RELEASE_DIR}"
