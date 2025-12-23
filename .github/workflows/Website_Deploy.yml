@@ -98,19 +98,21 @@ jobs:
           set -e
           TIMESTAMP="$(TZ="America/Los_Angeles" date +"%Y-%m-%d_%H-%M-%S_PST")"
           RELEASE_DIR="${BIN_DEPLOY_DIR}/releases/${TIMESTAMP}_${GITHUB_SHA}"
+          PROXY_CMD="cloudflared access ssh --hostname ssh.aadityakasbekar.com --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}"
 
           echo "Deploying to release directory:"
           echo "  ${RELEASE_DIR}"
           echo "Using build output dir: ${{ steps.builddir.outputs.dir }}"
 
-          ssh home-server "mkdir -p '${RELEASE_DIR}'"
+          ssh -o ProxyCommand="$PROXY_CMD" home-server "mkdir -p '${RELEASE_DIR}'"
 
           rsync -az --delete \
-            -e "ssh" \
-            "${{ steps.builddir.outputs.dir }}/" \
+            -e "ssh -o ProxyCommand=\"$PROXY_CMD\"" \
+            "dist/" \
             "home-server:${RELEASE_DIR}/"
 
-          ssh home-server "ln -sfn '${RELEASE_DIR}' '${BIN_DEPLOY_DIR}/current'"
+          ssh -o ProxyCommand="$PROXY_CMD" home-server \
+            "ln -sfn '${RELEASE_DIR}' '${BIN_DEPLOY_DIR}/current'"
 
       # ------------------------------------------------------------
       # Phase5 — Reload nginx (UNCHANGED)
