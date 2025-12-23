@@ -70,14 +70,14 @@ jobs:
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
-cat > ~/.ssh/config <<EOF
-    Host home-server
-      HostName ignored
-      User ${SERVER_USER_GITHUB}
-      StrictHostKeyChecking no
-      UserKnownHostsFile /dev/null
-      ProxyCommand cloudflared access ssh --hostname ssh.aadityakasbekar.com --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}
-    EOF
+          cat > ~/.ssh/config <<EOF
+              Host home-server
+                HostName ignored
+                User ${SERVER_USER_GITHUB}
+                StrictHostKeyChecking no
+                UserKnownHostsFile /dev/null
+                ProxyCommand cloudflared access ssh --hostname ssh.aadityakasbekar.com --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}
+          EOF
 
       # - name: Debug SSH config (sanitized)
       #   run: |
