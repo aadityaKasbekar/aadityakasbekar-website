@@ -76,7 +76,7 @@ jobs:
                 User ${SERVER_USER_GITHUB}
                 StrictHostKeyChecking no
                 UserKnownHostsFile /dev/null
-                ProxyCommand cloudflared access ssh --hostname ssh.aadityakasbekar.com --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}
+                ProxyCommand cloudflared access ssh --hostname Aaditya-Home-Server --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}
           EOF
 
       # - name: Debug SSH config (sanitized)
