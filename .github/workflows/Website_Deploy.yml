@@ -79,16 +79,16 @@ jobs:
             ProxyCommand cloudflared access ssh --hostname Aaditya-Home-Server --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}
           EOF
 
-      - name: Debug SSH config (sanitized)
-        run: |
-          echo "===== ~/.ssh/config (raw, masked by GitHub) ====="
-          cat ~/.ssh/config
+      # - name: Debug SSH config (sanitized)
+      #   run: |
+      #     echo "===== ~/.ssh/config (raw, masked by GitHub) ====="
+      #     cat ~/.ssh/config
 
-          echo ""
-          echo "===== ssh -G home-server (expanded view) ====="
-          ssh -G home-server | sed -E 's/(service-token-(id|secret))[[:space:]]+[^ ]+/\1 [REDACTED]/g'
+      #     echo ""
+      #     echo "===== ssh -G home-server (expanded view) ====="
+      #     ssh -G home-server | sed -E 's/(service-token-(id|secret))[[:space:]]+[^ ]+/\1 [REDACTED]/g'
 
-          # chmod 600 ~/.ssh/config
+      #     # chmod 600 ~/.ssh/config
 
       # ------------------------------------------------------------
       # Phase4 — Upload build, switch symlink (CHANGED only where needed)
