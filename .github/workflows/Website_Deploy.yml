@@ -78,7 +78,7 @@ jobs:
           # This tells SSH: "When I type 'ssh home-server', use this Key and this Cloudflare Tunnel"
           cat > ~/.ssh/config <<EOF
               Host home-server
-                HostName runner.aadityakasbekar.com
+                HostName bot.aadityakasbekar.com
                 User ${SERVER_USER_GITHUB}
                 IdentityFile ~/.ssh/id_ed25519
                 StrictHostKeyChecking no
