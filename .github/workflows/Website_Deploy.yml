@@ -15,10 +15,11 @@ jobs:
       CF_SERVICE_TOKEN_CLIENT_ID: ${{ secrets.CF_SERVICE_TOKEN_CLIENT_ID }}
       CF_SERVICE_TOKEN_CLIENT_SECRET: ${{ secrets.CF_SERVICE_TOKEN_CLIENT_SECRET }}
       SERVER_USER_GITHUB: ${{ secrets.SERVER_USER_GITHUB }}
+      SSH_PRIVATE_KEY: ${{ secrets.HOME_SERVER_GITHUB_USER_SSH_PVTKEY }}
 
     steps:
       # ------------------------------------------------------------
-      # Phase1 — Checkout & build (UNCHANGED)
+      # Phase 1: Build the Application
       # ------------------------------------------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,7 +51,7 @@ jobs:
           fi
 
       # ------------------------------------------------------------
-      # Phase2 — Install cloudflared (UNCHANGED)
+      # Phase 2: Install Cloudflare Client
       # ------------------------------------------------------------
       - name: Install cloudflared
         run: |
@@ -60,70 +61,58 @@ jobs:
             | sudo tee /etc/apt/sources.list.d/cloudflared.list
           sudo apt update
           sudo apt install -y cloudflared
-          cloudflared --version
 
       # ------------------------------------------------------------
-      # Phase3 — Configure SSH with Cloudflare Access (CHANGED)
+      # Phase 3: Configure SSH (The "New" Clean Method)
       # ------------------------------------------------------------
-      - name: Configure SSH client with Cloudflare Access
+      - name: Configure SSH Key and Tunnel
         run: |
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
+          # 1. Inject the Private Key from Secrets
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+
+          # 2. Create the Config File
+          # This tells SSH: "When I type 'ssh home-server', use this Key and this Cloudflare Tunnel"
           cat > ~/.ssh/config <<EOF
               Host home-server
-                HostName ignored
+                HostName runner.aadityakasbekar.com
                 User ${SERVER_USER_GITHUB}
+                IdentityFile ~/.ssh/id_ed25519
                 StrictHostKeyChecking no
                 UserKnownHostsFile /dev/null
-                ProxyCommand cloudflared access ssh --hostname ssh.aadityakasbekar.com --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}
+                ProxyCommand cloudflared access ssh --hostname %h --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}
           EOF
 
-      # - name: Debug SSH config (sanitized)
-      #   run: |
-      #     echo "===== ~/.ssh/config (raw, masked by GitHub) ====="
-      #     cat ~/.ssh/config
-
-      #     echo ""
-      #     echo "===== ssh -G home-server (expanded view) ====="
-      #     ssh -G home-server | sed -E 's/(service-token-(id|secret))[[:space:]]+[^ ]+/\1 [REDACTED]/g'
-
-      #     # chmod 600 ~/.ssh/config
-
       # ------------------------------------------------------------
-      # Phase4 — Upload build, switch symlink (CHANGED only where needed)
+      # Phase 4: Deploy
       # ------------------------------------------------------------
       - name: Upload build and activate release
         run: |
           set -e
           TIMESTAMP="$(TZ="America/Los_Angeles" date +"%Y-%m-%d_%H-%M-%S_PST")"
           RELEASE_DIR="${BIN_DEPLOY_DIR}/releases/${TIMESTAMP}_${GITHUB_SHA}"
-          PROXY_CMD="cloudflared access ssh --hostname ssh.aadityakasbekar.com --service-token-id ${CF_SERVICE_TOKEN_CLIENT_ID} --service-token-secret ${CF_SERVICE_TOKEN_CLIENT_SECRET}"
 
-          echo "Deploying to release directory:"
-          echo "  ${RELEASE_DIR}"
-          echo "Using build output dir: ${{ steps.builddir.outputs.dir }}"
+          echo "Deploying to: ${RELEASE_DIR}"
 
-          ssh -o ProxyCommand="$PROXY_CMD" home-server "mkdir -p '${RELEASE_DIR}'"
+          # Clean SSH command - checks config automatically
+          ssh home-server "mkdir -p '${RELEASE_DIR}'"
 
+          # Clean Rsync command - checks config automatically
           rsync -az --delete \
-            -e "ssh -o ProxyCommand=\"$PROXY_CMD\"" \
             "dist/" \
             "home-server:${RELEASE_DIR}/"
 
-          ssh -o ProxyCommand="$PROXY_CMD" home-server \
+          # Update Symlink
+          ssh home-server \
             "ln -sfn '${RELEASE_DIR}' '${BIN_DEPLOY_DIR}/current'"
 
-      # ------------------------------------------------------------
-      # Phase5 — Reload nginx (UNCHANGED)
-      # ------------------------------------------------------------
       - name: Reload nginx
         run: |
           ssh home-server "sudo systemctl reload nginx"
 
-      # ------------------------------------------------------------
-      # Phase6 — Verify deployment (UNCHANGED)
-      # ------------------------------------------------------------
-      - name: Verify site locally on server
+      - name: Verify deployment
         run: |
-          ssh home-server "curl -I http://127.0.0.1:8080 | head -n 5"x
+          ssh home-server "curl -I http://127.0.0.1:8080 | head -n 5"
