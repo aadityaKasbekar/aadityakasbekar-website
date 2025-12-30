@@ -10,7 +10,7 @@ const HeroSection = () => {
           </span>
           <h1 className="font-bold mb-4 animate-slide-in-left">
             <span className="block">Aaditya Kasbekar</span>
-            <span className="text-primary">Software Engineer</span>
+            <span className="text-primary">Software Developer</span>
           </h1>
           <p
             className="text-xl text-foreground/80 mb-8 max-w-md animate-slide-in-left"
