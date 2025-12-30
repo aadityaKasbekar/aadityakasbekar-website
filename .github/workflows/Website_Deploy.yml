@@ -92,7 +92,7 @@ jobs:
       - name: Debug Connection
         run: |
           # The -v flag will show us exactly what key is being offered
-          ssh -v home-server "echo 'Connection Successful'"
+          ssh -v home-server "echo 'Connection Successful Please'"
 
       - name: Upload build and activate release
         run: |
