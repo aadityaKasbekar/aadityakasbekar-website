@@ -24,9 +24,8 @@ const SkillCard = ({
       onMouseLeave={() => setIsFlipped(false)}
     >
       <div
-        className={`relative w-full h-full transition-transform duration-500 transform-style-3d ${
-          isFlipped ? "rotate-y-180" : ""
-        }`}
+        className={`relative w-full h-full transition-transform duration-500 transform-style-3d ${isFlipped ? "rotate-y-180" : ""
+          }`}
       >
         {/* Front of card */}
         <div className="glass-card p-6 absolute w-full h-full backface-hidden flex flex-col justify-center items-center">

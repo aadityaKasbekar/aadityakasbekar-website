@@ -1,6 +1,7 @@
 // Nice
 import { useState } from "react";
 import { ExternalLink, Github } from "lucide-react";
+import ExpandableText from "@/components/ExpandableText";
 
 interface ProjectCardProps {
   title: string;
@@ -23,7 +24,7 @@ const ProjectCard = ({
 
   return (
     <div
-      className="glass-card overflow-hidden group relative"
+      className="glass-card overflow-hidden group relative h-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -36,7 +37,7 @@ const ProjectCard = ({
       </div>
       <div className="p-6">
         <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p className="text-foreground/70 mb-4">{description}</p>
+        <ExpandableText text={description} maxLines={2} className="text-foreground/70" wrapperClassName="mb-4" />
         <div className="flex flex-wrap gap-2 mb-4">
           {technologies.map((tech, index) => (
             <span

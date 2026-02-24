@@ -25,8 +25,8 @@ export const LoadingScreen: React.FC<LoadingScreenProps> = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black text-gray-100 flex flex-col items-center justify-center">
-      <div className="mb-4 text-4xl font-mono font-bold flex items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-black text-gray-100 flex flex-col items-center justify-center px-4">
+      <div className="mb-4 text-xl sm:text-4xl font-mono font-bold flex items-center justify-center">
         <span>{text}</span>
         <span className="animate-blink">█</span>
       </div>

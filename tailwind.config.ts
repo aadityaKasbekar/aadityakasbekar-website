@@ -18,6 +18,9 @@ export default {
       },
     },
     extend: {
+      screens: {
+        nav: "924px",
+      },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
         display: ["Playfair Display", "serif"],
