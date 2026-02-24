@@ -5,7 +5,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "React Potfolio",
       description: "Engineered a high performance React 18 plus TypeScript portfolio SPA using Vite (SWC) with a component driven architecture, custom hooks, and scroll triggered animations styled via Tailwind and shadcn/ui for a polished, responsive UX. Productionized self hosted deployment on Ubuntu behind Nginx, secured exposure via Cloudflare Tunnel (Zero Trust), and built a fully automated GitHub Actions CI/CD pipeline with zero downtime, atomic releases, instant rollback, and Cloudflare cache purging.",
-      image: "lovable-uploads/AadityaKasbekar_Portfolio_Website.png",
+      image: "/lovable-uploads/AadityaKasbekar_Portfolio_Website.png",
       technologies: ["TypeScript","React", "Vite", "Ubuntu 24.04 LTS", "Nginx", "Cloudflare", "GitHub Actions"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -13,7 +13,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "Smart Browser History",
       description: "Built an end to end semantic browser history search system using Python/FastAPI, PostgreSQL, and vector embeddings to enable meaning based queries with top k retrieval plus RAG, powered by Gemini 2.5 Pro. Delivered a modular React/TypeScript UI with fast typeahead/caching, secured APIs with JWT and Redis token flows, and deployed containerized services to Google Cloud Run with CI enforced testing (Jest/RTL, Playwright/Cypress)",
-      image: "lovable-uploads/SmartBrowserHistory_Project_Image.png",
+      image: "/lovable-uploads/SmartBrowserHistory_Project_Image.png",
       technologies: ["Python","FastAPI", "PostgreSQL", "Vector database", "React", "TypeScript", "Redis", "Jest", "Playwright", "Cypress", "Docker", "Google Cloud Run"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -21,7 +21,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "AI Chatbot",
       description: "Developed and deployed a multi agent chatbot powered by LlaMA 3.1 models, enabling intelligent product Q&A by leveraging FAISS for vector search and metadata summarization. Constructed a complete MLOps pipeline on GCP and established scalable CI/CD pipelines.",
-      image: "lovable-uploads/AIChatbot_Project_Image.png",
+      image: "/lovable-uploads/AIChatbot_Project_Image.png",
       technologies: ["Python", "GCP", "Airflow", "Mlflow", "Jenkins", "Docker", "TensorFlow", "DVC"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -29,7 +29,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "Car Rental Management System",
       description: "Full-stack system demonstrating advanced OOP principles. Features include C++ REST APIs, Angular frontend, MySQL integration, and multithreading for handling concurrent user requests.",
-      image: "lovable-uploads/CarRentalManagementSystem_Project_Image.png",
+      image: "/lovable-uploads/CarRentalManagementSystem_Project_Image.png",
       technologies: ["C++", "JavaScript", "Angular", "MySQL", "OOP"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -37,7 +37,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "Cloud Native App",
       description: "Architected modular cloud infrastructure including VPCs and load balancers. Integrated multilingual interface, email notification microservices, and CI/CD pipelines with GitHub Actions.",
-      image: "lovable-uploads/CloudNativeApp_Project_Image.png",
+      image: "/lovable-uploads/CloudNativeApp_Project_Image.png",
       technologies: ["Java", "Spring Boot", "JavaScript", "ReactJS", "AWS Services", "Terraform"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -45,7 +45,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "EcoEngage Portal SPA",
       description: "Created APIs for user authentication and environmental data tracking. Engineered algorithms for carbon footprint calculation and developed interactive D3.js charts for data visualization.",
-      image: "lovable-uploads/EcoEngagePortalSPA_Project_Image.png",
+      image: "/lovable-uploads/EcoEngagePortalSPA_Project_Image.png",
       technologies: ["JavaScript", "TypeScript", "ExpressJS", "ReactJS", "MongoDB", "AWS"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -53,7 +53,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "Notes Web Application",
       description: "Seamlessly connected client-side app with server using Node.js/Express. Implemented MVC principles and leveraged MongoDB for robust data persistence and real-time access.",
-      image: "lovable-uploads/NotesWebApplication_Project_Image.png",
+      image: "/lovable-uploads/NotesWebApplication_Project_Image.png",
       technologies: ["JavaScript", "ExpressJS", "ReactJS", "MongoDB", "AWS"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -61,7 +61,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "PyCartoon",
       description: "Python project facilitating the creation of comic strips through image cartoonization. Features text overlay, multiple languages support, and sequential layout generation.",
-      image: "lovable-uploads/PyCartoon_Project_Image.png",
+      image: "/lovable-uploads/PyCartoon_Project_Image.png",
       technologies: ["Python", "Scikit-learn", "FPDF", "Matplotlib", "Pillow", "OpenCV"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -69,7 +69,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "Travel Website",
       description: "Developed a well-structured travel website using HTML, CSS, and SASS. Enhanced layout with CSS Grid and Flexbox, and integrated external resources like Google Fonts and Ionicons.",
-      image: "lovable-uploads/TravelWebsite_Project_Image.png",
+      image: "/lovable-uploads/TravelWebsite_Project_Image.png",
       technologies: ["HTML", "CSS", "SASS"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -77,7 +77,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "Enterprise Ecosystem",
       description: "Integrated Enterprise Ecosystem with Java Swing GUIs. Implemented secure authentication, data encryption, and Java-based reporting modules. Verified reliability with Junit and TestNG.",
-      image: "lovable-uploads/EnterpriseApplication_Project_Image.png",
+      image: "/lovable-uploads/EnterpriseApplication_Project_Image.png",
       technologies: ["Java", "Swing", "OOP"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -85,7 +85,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "Digital Education Platform",
       description: "Spearheaded a digital education platform with Java backend and Swing GUI. Integrated MySQL with custom JDBC queries and implemented real-time analytics using JFreeChartAPI.",
-      image: "lovable-uploads/DigitalEducationPlatform_Project_Image.png",
+      image: "/lovable-uploads/DigitalEducationPlatform_Project_Image.png",
       technologies: ["Java", "Swing", "MySQL"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
@@ -93,7 +93,7 @@ export const portfolioData: PortfolioData = {
     {
       title: "Taxi Management System",
       description: "Designed optimized MS SQL database schema. Built Flask-based CRUD SPA. Strengthened system security and facilitated collaboration via GitHub.",
-      image: "lovable-uploads/TaxiManagementSystem_Project_Image.png",
+      image: "/lovable-uploads/TaxiManagementSystem_Project_Image.png",
       technologies: ["MS SQL", "Flask", "Python"],
       liveUrl: "#",
       repoUrl: "https://github.com/aadityaKasbekar",
