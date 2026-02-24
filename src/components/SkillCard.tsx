@@ -1,15 +1,11 @@
 import { useState } from "react";
-
-interface Technology {
-  name: string;
-  icon: React.ReactNode;
-}
+import { TechnologyData } from "@/types";
 
 interface SkillCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
-  technologies: Technology[];
+  technologies: TechnologyData[];
 }
 
 const SkillCard = ({
@@ -52,7 +48,13 @@ const SkillCard = ({
                 key={index}
                 className="flex flex-col items-center justify-center gap-1"
               >
-                <div className="text-primary">{tech.icon}</div>
+                <div className="text-primary">
+                  <img
+                    src={tech.iconUrl}
+                    alt={tech.iconAlt}
+                    className="h-5 w-5"
+                  />
+                </div>
                 <span className="text-sm">{tech.name}</span>
               </div>
             ))}
