@@ -117,6 +117,7 @@ jobs:
       - name: Reload nginx
         run: |
           ssh home-server "sudo systemctl reload nginx"
+          sleep 10
 
       # ------------------------------------------------------------
       # Phase 5: Purge Cloudflare Cache
