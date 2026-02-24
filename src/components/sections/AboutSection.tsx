@@ -1,6 +1,19 @@
 import { Download } from "lucide-react";
+import { portfolioData } from "../../data/portfolio";
+import { Button } from "../ui/button";
 
 const AboutSection = () => {
+  const { about } = portfolioData;
+
+  const handleDownloadCV = () => {
+    const link = document.createElement('a');
+    link.href = '/latest_profile_info/Aaditya_Kasbekar_Resume.pdf';
+    link.download = 'Aaditya_Kasbekar_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
   return (
     <div className="container mx-auto">
       <h2 className="section-title">About Me</h2>
@@ -13,55 +26,43 @@ const AboutSection = () => {
               className="w-full h-full object-cover object-center"
             />
           </div>
-          <div className="glass-card p-4 absolute -bottom-6 right-8 max-w-xs">
+          {/* Quote positioned absolutely on desktop, hidden on mobile */}
+          <div className="glass-card p-4 absolute -bottom-6 right-8 max-w-xs hidden xl:block">
             <blockquote className="text-foreground/80 italic">
-              "Many ideas grow better when transplanted into another mind than
-              the one where they sprang up."
+              "{about.quote.text}"
             </blockquote>
-            <p className="text-right mt-2 text-sm">— Oliver Wendell Holmes</p>
+            <p className="text-right mt-2 text-sm">— {about.quote.author}</p>
+          </div>
+          {/* Quote positioned below image on mobile, hidden on desktop */}
+          <div className="glass-card p-4 mt-6 xl:hidden">
+            <blockquote className="text-foreground/80 italic">
+              "{about.quote.text}"
+            </blockquote>
+            <p className="text-right mt-2 text-sm">— {about.quote.author}</p>
           </div>
         </div>
         <div>
           <h3 className="text-2xl font-semibold mb-4">
-            I'm a Software Developer passionate about creating cloud based
-            software solutions
+            {about.headline}
           </h3>
-          <p className="mb-4 text-foreground/80">
-            With 2+ years of experience in web development, I've worked on a
-            variety of projects ranging from small business websites to complex
-            enterprise applications. My approach combines technical expertise
-            with problem solving skills for building scalable and maintainable
-            software.
-          </p>
-          <p className="mb-6 text-foreground/80">
-            I believe that great software is not just about writing code, but
-            about solving real problems for real people. That's why I also focus
-            on creating intuitive interfaces that make complex tasks feel
-            simple.
-          </p>
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <div>
-              <h4 className="font-semibold mb-2">Name</h4>
-              <p className="text-foreground/80">Aaditya Kasbekar</p>
-            </div>
+          {about.description.map((paragraph, index) => (
+            <p key={index} className="mb-4 text-foreground/80">
+              {paragraph}
+            </p>
+          ))}
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 xl:gap-12 mb-6">
             <div>
               <h4 className="font-semibold mb-2">Email</h4>
-              <p className="text-foreground/80">kasbekar.a@northeastern.edu</p>
+              <p className="text-foreground/80">{about.email}</p>
             </div>
             <div>
               <h4 className="font-semibold mb-2">Location</h4>
-              <p className="text-foreground/80">Boston, MA</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">Availability</h4>
-              <p className="text-foreground/80">
-                From <strong>12th May 2025</strong> for full time opportunities
-              </p>
+              <p className="text-foreground/80">{about.location}</p>
             </div>
           </div>
-          <a href="#" className="btn btn-outline">
+          <Button variant="outline" onClick={handleDownloadCV}>
             Download CV <Download className="ml-2 h-4 w-4" />
-          </a>
+          </Button>
         </div>
       </div>
     </div>

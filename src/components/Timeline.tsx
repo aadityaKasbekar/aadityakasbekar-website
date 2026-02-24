@@ -1,14 +1,9 @@
 import { CalendarDays, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-interface TimelineItemProps {
-  title: string;
-  company: string;
-  location: string;
-  period: string;
-  description: string[];
-  image: string;
-  skills: string[];
+import { ExperienceItem } from "@/types";
+
+interface TimelineItemProps extends ExperienceItem {
   isLast?: boolean;
 }
 
@@ -56,13 +51,9 @@ const TimelineItem = ({
                 {period}
               </div>
             </div>
-            <ul className="list-disc pl-5 space-y-2 mb-4">
-              {description.map((item, index) => (
-                <li key={index} className="text-foreground/80">
-                  {item}
-                </li>
-              ))}
-            </ul>
+            <p className="text-foreground/80 mb-4 leading-relaxed">
+              {description}
+            </p>
             <div className="flex flex-wrap gap-2 mt-3">
               {skills.map((skill, index) => (
                 <Badge

@@ -1,6 +1,14 @@
 import { ArrowRight } from "lucide-react";
+import { Button } from "../ui/button";
 
 const HeroSection = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div className="container mx-auto flex flex-col items-center justify-center">
       <div className="grid md:grid-cols-2 gap-12 items-center w-full">
@@ -16,7 +24,7 @@ const HeroSection = () => {
             className="text-xl text-foreground/80 mb-8 max-w-md animate-slide-in-left"
             style={{ animationDelay: "200ms" }}
           >
-            I’m a software developer skilled in full-stack development, cloud
+            I'm a software developer skilled in full-stack development, cloud
             computing, and DevOps. I design scalable, high-performance solutions
             using Java, React, and AWS, driven by innovation and continuous
             learning.
@@ -25,12 +33,20 @@ const HeroSection = () => {
             className="flex flex-wrap gap-4 animate-slide-in-left"
             style={{ animationDelay: "400ms" }}
           >
-            <a href="#contact" className="btn btn-lg btn-primary">
+            <Button 
+              size="lg" 
+              onClick={() => scrollToSection("contact")}
+              className="btn-primary"
+            >
               Contact Me <ArrowRight className="ml-2 h-5 w-5" />
-            </a>
-            <a href="#projects" className="btn btn-lg btn-outline">
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline"
+              onClick={() => scrollToSection("projects")}
+            >
               View Projects
-            </a>
+            </Button>
           </div>
         </div>
         <div className="relative order-1 md:order-2 animate-slide-in-right">
