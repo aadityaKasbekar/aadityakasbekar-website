@@ -55,11 +55,10 @@ const Navigation = () => {
 
   return (
     <header
-      className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-        scrolled
+      className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled
           ? "bg-background/80 backdrop-blur-md border-b"
           : "bg-transparent"
-      }`}
+        }`}
     >
       <div className="container mx-auto px-4 flex justify-between items-center h-16">
         <a href="#home" className="text-2xl font-display font-bold">
@@ -67,7 +66,7 @@ const Navigation = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden nav:flex items-center space-x-8">
           <ul className="flex space-x-8">
             {navItems.map((item) => (
               <li key={item.name}>
@@ -98,7 +97,7 @@ const Navigation = () => {
         </nav>
 
         {/* Mobile Navigation Trigger */}
-        <div className="flex items-center md:hidden space-x-4">
+        <div className="flex items-center nav:hidden space-x-4">
           <button
             onClick={toggleTheme}
             className="p-2 rounded-full hover:bg-muted transition-colors"
@@ -122,9 +121,8 @@ const Navigation = () => {
 
       {/* Mobile Navigation Menu */}
       <div
-        className={`fixed inset-0 bg-background/95 backdrop-blur-sm z-50 transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "translate-x-full"
-        } md:hidden`}
+        className={`fixed inset-0 bg-background/95 backdrop-blur-sm z-50 transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "translate-x-full"
+          } nav:hidden`}
         style={{
           height: "100vh",
           position: "fixed",

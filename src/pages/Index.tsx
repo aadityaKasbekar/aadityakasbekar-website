@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "@/contexts/ThemeContext";
 import Navigation from "@/components/Navigation";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
 import Section from "@/components/Section";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
@@ -23,6 +24,7 @@ const Index = () => {
   return (
     <div className="min-h-screen relative">
       <Navigation />
+      <ScrollProgressBar />
 
       {/* Hero Section */}
       <Section
