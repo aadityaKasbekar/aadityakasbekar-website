@@ -15,7 +15,7 @@ jobs:
       SERVER_USER_GITHUB: ${{ secrets.SERVER_USER_GITHUB }}
       SSH_PRIVATE_KEY: ${{ secrets.HOME_SERVER_GITHUB_USER_SSH_PVTKEY }}
       CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
-      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CF_CACHE_PURGE_API_TOKEN : ${{ secrets.CF_CACHE_PURGE_API_TOKEN }}
 
     steps:
       # ------------------------------------------------------------
@@ -125,7 +125,7 @@ jobs:
         run: |
           HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
             "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
-            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Authorization: Bearer ${CF_CACHE_PURGE_API_TOKEN}" \
             -H "Content-Type: application/json" \
             --data '{"purge_everything":true}')
           if [ "$HTTP_STATUS" -ne 200 ]; then
